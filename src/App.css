@@ -1,0 +1,141 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f8f8;
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  cursor: pointer;
+}
+
+#searchInput {
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 80px;
+}
+
+#searchInputDiv {
+  text-align: center;
+}
+#searchInput::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  margin-left: 0.4em;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+  cursor: pointer;
+}
+
+#result {
+  font-size: 18px;
+  margin-top: 10px;
+  flex: 1;
+  height: "100%";
+  width: "100%";
+}
+
+#result.empty {
+  color: #999;
+}
+
+.radio-buttons {
+  margin-top: 20px;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.radio-button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-right: 5px;
+}
+
+.radio-button.selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.radio-button input {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio-button span {
+  position: relative;
+  z-index: 1;
+}
+
+.radio-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.radio-button.selected::before {
+  background-color: #007bff;
+}
+
+.limit-results-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: auto;
+  font-size: 16px;
+  width: 80px;
+  height: 10px;
+}
+
+.limit-results-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.result-found {
+  font-size: 15px;
+  color: #555;
+  margin-top: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 30px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
