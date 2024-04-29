@@ -7,7 +7,7 @@ function App() {
   const [result, setResult] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [limitedResults, setLimitedResults] = useState(false);
-  const [numResultsToShow, setNumResultsToShow] = useState(100);
+  const [numResults, setNumResults] = useState(100);
   const [listHeight, setListHeight] = useState(400);
   const [resultLen, setResultLen] = useState(0);
   const [minLength, setMinLength] = useState(0);
@@ -24,7 +24,7 @@ function App() {
   }, [
     searchQuery,
     limitedResults,
-    numResultsToShow,
+    numResults,
     minLength,
     maxLength,
     startLetter,
@@ -60,7 +60,7 @@ function App() {
         );
       })
       .sort((a, b) => a.search(qReg) - b.search(qReg))
-      .splice(0, limitedResults ? numResultsToShow : array.length - 1);
+      .splice(0, limitedResults ? numResults : array.length - 1);
   }
 
   useEffect(() => {
@@ -166,9 +166,9 @@ function App() {
               {limitedResults && (
                 <input
                   type="number"
-                  value={numResultsToShow}
+                  value={numResults}
                   onChange={(e) =>
-                    setNumResultsToShow(parseInt(e.target.value))
+                    setNumResults(parseInt(e.target.value))
                   }
                   className="limit-results-input"
                 />
