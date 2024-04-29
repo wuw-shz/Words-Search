@@ -15,7 +15,7 @@ To run the English Words Searcher application locally, follow these steps:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/english-words-searcher.git
+   git clone https://github.com/wuw-shz/Word-Search.git
    ```
 
 2. **Install dependencies**:
