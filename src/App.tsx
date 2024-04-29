@@ -6,7 +6,7 @@ import "./App.css";
 function App() {
   const [result, setResult] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [limitedResults, setLimitedResults] = useState(true); // Changed state name
+  const [limitedResults, setLimitedResults] = useState(false); // Changed state name
   const [numResultsToShow, setNumResultsToShow] = useState(100);
   const [listHeight, setListHeight] = useState(400);
   const [resultLen, setResultLen] = useState(0);
