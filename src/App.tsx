@@ -1,45 +1,31 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import "./App.css";
 
 function App() {
-  const [result, setResult] = useState(Array<string>);
+  const [result, setResult] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showAllResults, setShowAllResults] = useState(false);
+  const [limitedResults, setLimitedResults] = useState(true); // Changed state name
   const [numResultsToShow, setNumResultsToShow] = useState(100);
   const [listHeight, setListHeight] = useState(400);
   const [resultLen, setResultLen] = useState(0);
+  const [minLength, setMinLength] = useState(0);
+  const [maxLength, setMaxLength] = useState(100);
+  const [startLetter, setStartLetter] = useState("");
   const resultDiv = document.getElementById("result");
-
-  function searchEngine(query: string, array: string[]) {
-    const qReg = new RegExp(query, "i");
-
-    return array
-      .filter((item) => qReg.test(item))
-      .sort((a, b) => {
-        return a.search(qReg) - b.search(qReg);
-      });
-  }
-
-  function isWord(value: string): boolean {
-    const wordPattern = /^[A-Za-z]+$/;
-    return wordPattern.test(value);
-  }
 
   useEffect(() => {
     if (searchQuery.trim() !== "") handleSearch();
     else {
       setResultLen(0);
-      resultDiv?.classList.add("empty");
     }
   }, [
     searchQuery,
-    showAllResults,
+    limitedResults, // Updated dependency
     numResultsToShow,
-    result,
-    resultLen,
-    resultDiv,
+    minLength,
+    maxLength,
+    startLetter,
   ]);
 
   function handleSearch() {
@@ -51,22 +37,42 @@ function App() {
       .then((words) => {
         const wordsSearch = searchEngine(
           searchValue.trim(),
-          words
-            .split("\n")
-            .filter(
-              (word) => word.toLowerCase().includes(searchValue) || isWord(word)
-            )
-        ).splice(0, showAllResults ? words.length - 1 : numResultsToShow);
-        if (wordsSearch.length > 0) {
-          setResult(wordsSearch);
-          setResultLen(wordsSearch.length);
-          resultDiv?.classList.remove("empty");
-        } else {
-          setResultLen(0);
-          resultDiv?.classList.add("empty");
-        }
+          words.split("\n")
+        ).splice(0, limitedResults ? numResultsToShow : words.length - 1); // Adjusted condition
+        setResult(wordsSearch);
+        setResultLen(wordsSearch.length);
       });
   }
+
+  function searchEngine(query: string, array: string[]) {
+    const qReg = new RegExp(query, "i");
+
+    return array
+      .filter((item) => {
+        const meetsLengthCriteria =
+          item.length >= minLength && item.length <= maxLength;
+        const meetsStartLetterCriteria = startLetter
+          ? item.toLowerCase().startsWith(startLetter.toLowerCase())
+          : true;
+        return (
+          qReg.test(item) && meetsLengthCriteria && meetsStartLetterCriteria
+        );
+      })
+      .sort((a, b) => a.search(qReg) - b.search(qReg));
+  }
+
+  useEffect(() => {
+    const updateListHeight = () => {
+      const height = window.innerHeight - 270;
+      setListHeight(height);
+    };
+
+    updateListHeight();
+    window.addEventListener("resize", updateListHeight);
+    return () => {
+      window.removeEventListener("resize", updateListHeight);
+    };
+  }, []);
 
   const Row = ({
     index,
@@ -83,23 +89,9 @@ function App() {
     }
     return <div style={style}>{item}</div>;
   };
-
-  useEffect(() => {
-    const updateListHeight = () => {
-      const height = window.innerHeight - 270;
-      setListHeight(height);
-    };
-
-    updateListHeight();
-    window.addEventListener("resize", updateListHeight);
-    return () => {
-      window.removeEventListener("resize", updateListHeight);
-    };
-  }, []);
-
   return (
     <>
-      <h1 onClick={() => window.location.reload()}>Word Search</h1>
+      <h1 onClick={() => window.location.reload()}>Words Search</h1>
       <div id="searchInputDiv">
         <input
           type="search"
@@ -109,44 +101,59 @@ function App() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      <div className="radio-buttons">
-        <label
-          className={showAllResults ? "radio-button selected" : "radio-button"}
-        >
-          <input
-            type="radio"
-            value="all"
-            checked={showAllResults}
-            onChange={() => setShowAllResults(true)}
-          />
-          <span>All Results</span>
-        </label>
-        <label
-          className={!showAllResults ? "radio-button selected" : "radio-button"}
-        >
-          <input
-            type="radio"
-            value="limited"
-            checked={!showAllResults}
-            onChange={() => setShowAllResults(false)}
-          />
-          <span>Limited Results</span>
-        </label>
-        {!showAllResults && (
-          <input
-            type="number"
-            placeholder="Number of results to show"
-            value={numResultsToShow}
-            onChange={(e) => setNumResultsToShow(parseInt(e.target.value))}
-            className="limit-results-input"
-          />
-        )}
-      </div>
+      <details className="custom-options">
+        <summary>Custom Options</summary>
+        <div className="custom-dropdown-content">
+          <label>
+            Min Length:
+            <input
+              type="number"
+              value={minLength}
+              onChange={(e) => setMinLength(parseInt(e.target.value))}
+            />
+          </label>
+          <label>
+            Max Length:
+            <input
+              type="number"
+              value={maxLength}
+              onChange={(e) => setMaxLength(parseInt(e.target.value))}
+            />
+          </label>
+          <label>
+            Start Letter:
+            <input
+              type="text"
+              value={startLetter}
+              onChange={(e) => setStartLetter(e.target.value)}
+            />
+          </label>
+          <label className="toggle-switch">
+            {" "}
+            {/* Added class */}
+            Limited Results: {/* Changed label */}\
+            <label className="switch">
+              <input type="checkbox" checked />
+              <span className="slider round"></span>
+            </label>
+          </label>
+          {limitedResults && (
+            <label>
+              Number of results to show:
+              <input
+                type="number"
+                value={numResultsToShow}
+                onChange={(e) => setNumResultsToShow(parseInt(e.target.value))}
+                className="limit-results-input"
+              />
+            </label>
+          )}
+        </div>
+      </details>
       <p id="result-found" className="result-found">
         Results found ({resultLen})
       </p>
       <div id="result" className="result">
-        {resultLen == 0 && "No words found."}
         <List
           height={listHeight}
           itemCount={resultLen}
