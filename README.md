@@ -1,13 +1,3 @@
----
-
-# English Words Searcher
-
-English Words Searcher is a web application designed for searching English words interactively. It leverages Vite, React with TypeScript (React.TS)
-
-Certainly! Here's the updated README.md with the added feature:
-
----
-
 # English Words Searcher
 
 English Words Searcher is a web application designed for searching English words interactively. It leverages Vite, React with TypeScript (React.TS), and a custom search engine to provide users with a seamless experience in finding English words.
