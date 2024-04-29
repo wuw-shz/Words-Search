@@ -13,6 +13,7 @@ function App() {
   const [minLength, setMinLength] = useState(0);
   const [maxLength, setMaxLength] = useState(100);
   const [startLetter, setStartLetter] = useState("");
+  const [optionsToggle, setOptionsToggle] = useState(false);
   const resultDiv = document.getElementById("result");
 
   useEffect(() => {
@@ -33,35 +34,40 @@ function App() {
   function handleSearch() {
     const searchValue = searchQuery.toLowerCase();
     fetch(
-      "https://raw.githubusercontent.com/wuw-shz/Word-Search/main/src/assets/words.txt"
+      "src/assets/words.txt"
     )
       .then((res) => res.text())
       .then((words) => {
-        const wordsSearch = searchEngine(
-          searchValue.trim(),
-          words.split("\n")
-        ).splice(0, limitedResults ? numResultsToShow : words.length - 1);
+        const wordsSearch = searchEngine(searchValue.trim(), words.split("\n"))
         setResult(wordsSearch);
         setResultLen(wordsSearch.length);
       });
   }
 
   function searchEngine(query: string, array: string[]) {
-    const qReg = new RegExp(query, "i");
+    const qReg = new RegExp(query, 'i')
+    // const qReg = new RegExp(`\\w+(${query})\\w+`, "gi")
 
     return array
       .filter((item) => {
         const searchLen = item.length >= minLength && item.length <= maxLength;
-        return qReg.test(item) && searchLen && (startLetter
-          ? item.toLowerCase().startsWith(startLetter.toLowerCase())
-          : true);
+        return (
+          qReg.test(item) &&
+          searchLen &&
+          (startLetter
+            ? item.toLowerCase().startsWith(startLetter.toLowerCase())
+            : true)
+        );
       })
-      .sort((a, b) => a.search(qReg) - b.search(qReg));
+      .sort((a, b) => a.search(qReg) - b.search(qReg))
+      .splice(0, limitedResults ? numResultsToShow : array.length - 1);
   }
 
   useEffect(() => {
     const updateListHeight = () => {
-      const height = window.innerHeight - 270;
+      const height =
+        window.innerHeight -
+        (optionsToggle ? (limitedResults ? 520 : 480) : 280);
       setListHeight(height);
     };
 
@@ -70,7 +76,7 @@ function App() {
     return () => {
       window.removeEventListener("resize", updateListHeight);
     };
-  }, []);
+  }, [optionsToggle, limitedResults]);
 
   const Row = ({
     index,
@@ -89,7 +95,10 @@ function App() {
   };
   return (
     <>
-      <h1 onClick={() => window.location.reload()}>Words Search</h1>
+      <div>
+        <h1 onClick={() => window.location.reload()}>Words Search</h1>
+      </div>
+      <br></br>
       <div id="searchInputDiv">
         <input
           type="search"
@@ -99,7 +108,17 @@ function App() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      <details className="custom-options">
+      <details
+        className="custom-options"
+        id="custom-options"
+        onToggle={() =>
+          setOptionsToggle(
+            (document.getElementById("custom-options") as HTMLDetailsElement)
+              .open
+          )
+        }
+        open
+      >
         <summary>Options</summary>
         <div className="custom-dropdown-content">
           <label>
@@ -159,14 +178,15 @@ function App() {
         </div>
       </details>
       <p id="result-found" className="result-found">
-        Results found ({resultLen})
+        Results found (
+        {resultLen.toLocaleString()} / 307,657)
       </p>
       <div id="result" className="result">
         <List
           height={listHeight}
           itemCount={resultLen}
           itemSize={20}
-          width={"50%"}
+          width={"100%"}
         >
           {Row}
         </List>
