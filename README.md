@@ -15,13 +15,13 @@ To run the English Words Searcher application locally, follow these steps:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/wuw-shz/Word-Search.git
+   git clone https://github.com/wuw-shz/Words-Search.git
    ```
 
 2. **Install dependencies**:
 
    ```bash
-   cd Word-Search
+   cd Words-Search
    npm install # or yarn install
    ```
 
