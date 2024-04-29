@@ -100,7 +100,7 @@ function App() {
         />
       </div>
       <details className="custom-options">
-        <summary>Custom Options</summary>
+        <summary>Options</summary>
         <div className="custom-dropdown-content">
           <label>
             Min Length
