@@ -6,7 +6,7 @@ import "./App.css";
 function App() {
   const [result, setResult] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [limitedResults, setLimitedResults] = useState(false); // Changed state name
+  const [limitedResults, setLimitedResults] = useState(false);
   const [numResultsToShow, setNumResultsToShow] = useState(100);
   const [listHeight, setListHeight] = useState(400);
   const [resultLen, setResultLen] = useState(0);
@@ -52,9 +52,9 @@ function App() {
     return array
       .filter((item) => {
         const searchLen = item.length >= minLength && item.length <= maxLength;
-        return qReg.test(item) && searchLen && startLetter
+        return qReg.test(item) && searchLen && (startLetter
           ? item.toLowerCase().startsWith(startLetter.toLowerCase())
-          : true;
+          : true);
       })
       .sort((a, b) => a.search(qReg) - b.search(qReg));
   }
@@ -132,8 +132,10 @@ function App() {
               <input
                 id="cbx-51"
                 type="checkbox"
+                checked={limitedResults}
                 onChange={(e) => setLimitedResults(e.target.checked)}
               />
+
               <label className="toggle" htmlFor="cbx-51">
                 <span>
                   <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -141,6 +143,7 @@ function App() {
                   </svg>
                 </span>
               </label>
+
               {limitedResults && (
                 <input
                   type="number"
