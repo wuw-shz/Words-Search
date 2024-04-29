@@ -21,7 +21,7 @@ To run the English Words Searcher application locally, follow these steps:
 2. **Install dependencies**:
 
    ```bash
-   cd english-words-searcher
+   cd Word-Search
    npm install # or yarn install
    ```
 
