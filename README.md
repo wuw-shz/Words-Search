@@ -60,7 +60,3 @@ Contributions are welcome! If you'd like to contribute to English Words Searcher
 ## License
 
 [MIT License](LICENSE)
-
----
-
-Feel free to adjust any details or add more information based on your project's requirements!
