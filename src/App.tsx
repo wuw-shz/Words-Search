@@ -34,11 +34,11 @@ function App() {
   function handleSearch() {
     const searchValue = searchQuery.toLowerCase();
     fetch(
-      "src/assets/words.txt"
+      "https://raw.githubusercontent.com/wuw-shz/Word-Search/main/src/assets/words.txt"
     )
       .then((res) => res.text())
       .then((words) => {
-        const wordsSearch = searchEngine(searchValue.trim(), words.split("\n"))
+        const wordsSearch = searchEngine(searchValue.trim(), words.split("\n"));
         setResult(wordsSearch);
         setResultLen(wordsSearch.length);
       });
