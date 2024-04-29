@@ -1,5 +1,3 @@
-Certainly! Here's the README.md adapted to describe the provided code:
-
 ---
 
 # English Words Searcher
