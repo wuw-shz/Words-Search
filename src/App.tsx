@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import "./App.css";
@@ -21,11 +22,12 @@ function App() {
     }
   }, [
     searchQuery,
-    limitedResults, // Updated dependency
+    limitedResults,
     numResultsToShow,
     minLength,
     maxLength,
     startLetter,
+    handleSearch,
   ]);
 
   function handleSearch() {
@@ -38,7 +40,7 @@ function App() {
         const wordsSearch = searchEngine(
           searchValue.trim(),
           words.split("\n")
-        ).splice(0, limitedResults ? numResultsToShow : words.length - 1); // Adjusted condition
+        ).splice(0, limitedResults ? numResultsToShow : words.length - 1);
         setResult(wordsSearch);
         setResultLen(wordsSearch.length);
       });
@@ -105,7 +107,7 @@ function App() {
         <summary>Custom Options</summary>
         <div className="custom-dropdown-content">
           <label>
-            Min Length:
+            Min Length
             <input
               type="number"
               value={minLength}
@@ -113,7 +115,7 @@ function App() {
             />
           </label>
           <label>
-            Max Length:
+            Max Length
             <input
               type="number"
               value={maxLength}
@@ -121,7 +123,7 @@ function App() {
             />
           </label>
           <label>
-            Start Letter:
+            Start Letter
             <input
               type="text"
               value={startLetter}
@@ -129,25 +131,33 @@ function App() {
             />
           </label>
           <label className="toggle-switch">
-            {" "}
-            {/* Added class */}
-            Limited Results: {/* Changed label */}\
-            <label className="switch">
-              <input type="checkbox" checked />
-              <span className="slider round"></span>
-            </label>
-          </label>
-          {limitedResults && (
-            <label>
-              Number of results to show:
+            Limited Results
+            <div className="checkbox-wrapper-51">
               <input
-                type="number"
-                value={numResultsToShow}
-                onChange={(e) => setNumResultsToShow(parseInt(e.target.value))}
-                className="limit-results-input"
+                id="cbx-51"
+                type="checkbox"
+                onChange={(e) => setLimitedResults(e.target.checked)}
               />
-            </label>
-          )}
+              <label className="toggle" htmlFor="cbx-51">
+                <span>
+                  <svg viewBox="0 0 10 10" height="10px" width="10px">
+                    <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z"></path>
+                  </svg>
+                </span>
+              </label>
+
+              {limitedResults && (
+                <input
+                  type="number"
+                  value={numResultsToShow}
+                  onChange={(e) =>
+                    setNumResultsToShow(parseInt(e.target.value))
+                  }
+                  className="limit-results-input"
+                />
+              )}
+            </div>
+          </label>
         </div>
       </details>
       <p id="result-found" className="result-found">

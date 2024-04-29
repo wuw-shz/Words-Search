@@ -17,23 +17,8 @@ English Words Searcher is a web application designed for searching English words
 ## Features
 
 - **Word Search**: Users can search for English words quickly and easily.
-- **Typeahead Suggestions**: Receive typeahead suggestions as you type in the search bar, aiding in finding words efficiently.
 - **Responsive Design**: The application is optimized for various devices, ensuring a seamless experience on both desktop and mobile platforms.
-- **Multiple Languages**: Ability to search for words in multiple languages, with support for English as the primary language.
-- **Bookmark Words**: Users can bookmark their favorite words for quick access later.
-- **Share Words**: Share interesting words with friends via social media or messaging apps directly from the application.
-- **Customization Options**: Customize the search preferences, such as word length, starting letter, or specific word categories.
-- **Offline Mode**: Access previously searched words and their details even when offline, enhancing the user experience.
-- **Accessibility**: Ensure accessibility standards are met, making the application usable for all users, including those with disabilities.
 - **Result Display Options**: Users can select between displaying all search results or a limited number of results for better control over the displayed content.
-
-## Code Overview
-
-The provided code is a React component (`App.tsx`) responsible for the main functionality of the English Words Searcher application. Here's a brief overview:
-
-- **Search Engine**: The `searchEngine` function utilizes a regular expression to perform a case-insensitive search for words in a text file (`words.txt`). It filters the words based on the search query and whether they are valid English words.
-- **User Interface**: The UI consists of an input field for entering the search query, radio buttons for toggling between showing all results or a limited number of results, and a list to display the search results.
-- **List Rendering**: The search results are displayed using the `FixedSizeList` component from the `react-window` library, providing efficient rendering of a large number of items.
 
 ## Getting Started
 
