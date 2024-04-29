@@ -51,14 +51,10 @@ function App() {
 
     return array
       .filter((item) => {
-        const meetsLengthCriteria =
-          item.length >= minLength && item.length <= maxLength;
-        const meetsStartLetterCriteria = startLetter
+        const searchLen = item.length >= minLength && item.length <= maxLength;
+        return qReg.test(item) && searchLen && startLetter
           ? item.toLowerCase().startsWith(startLetter.toLowerCase())
           : true;
-        return (
-          qReg.test(item) && meetsLengthCriteria && meetsStartLetterCriteria
-        );
       })
       .sort((a, b) => a.search(qReg) - b.search(qReg));
   }
@@ -145,7 +141,6 @@ function App() {
                   </svg>
                 </span>
               </label>
-
               {limitedResults && (
                 <input
                   type="number"

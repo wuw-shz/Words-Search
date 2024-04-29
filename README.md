@@ -1,6 +1,6 @@
 # Words Search
 
-Words Search is a web application designed for searching English words interactively. It leverages Vite, React with TypeScript (React.TS)
+Words Search is a web application designed for searching English words to solve puzzles. It leverages Vite, React with TypeScript (React.TS)
 
 ## Features
 
